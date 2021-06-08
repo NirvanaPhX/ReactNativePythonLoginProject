@@ -6,6 +6,7 @@ const Button = (props) => {
     return (
         <View style={styles.container}>
             <TouchableHighlight
+                {...props}
                 style={styles.button}>
                     <Text style={styles.text}>
                         {props.children}

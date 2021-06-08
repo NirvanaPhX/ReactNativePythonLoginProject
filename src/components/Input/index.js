@@ -16,6 +16,7 @@ const Input = (props) => {
 const styles = StyleSheet.create({
     input: {
         height: 40,
+        fontSize: 15,
         borderWidth:1,
         marginHorizontal: 6,
         marginBottom: 10,

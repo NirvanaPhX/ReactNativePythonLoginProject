@@ -1,0 +1,1 @@
+MONGO_URI = "mongodb+srv://Iamtheroot:r00t891112@cluster0.tomb4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"

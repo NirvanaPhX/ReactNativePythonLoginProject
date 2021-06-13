@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet } from 'react-native'
+import {View, Text, StyleSheet, Alert } from 'react-native'
 import Input from '../../components/Input'
 import Label from '../../components/Label'
 import Button from '../../components/Button'
+import {reqSignUp} from '../../api/'
 
 const SignUpScreen = () => {
     const [username, setUsername] = useState('');
@@ -27,7 +28,8 @@ const SignUpScreen = () => {
     }
 
     const SignUp = (username, email, password1, password2) => {
-
+       if (!validEmail(email) || !validPassword(password1) || !passwordsMatch(password1, password2)) Alert.alert("Please change input as instructed"); 
+       reqSignUp(username, email, password1)
     }
 
     return (
@@ -45,7 +47,7 @@ const SignUpScreen = () => {
             <Label>Email Address: </Label>
             <Input
                 autoCorrect={false}
-                autoFocus={true}
+                autoFocus={false}
                 autoCompleteType='email'
                 placeholder='Enter your email address'
                 keyboardType='email-address'
@@ -59,14 +61,14 @@ const SignUpScreen = () => {
             <Label>Password: </Label>
             <Input
                 autoCorrect={false}
-                autoFocus={true}
+                autoFocus={false}
                 placeholder='Enter you password'
                 keyboardType='default'
                 onChangeText={password1 => setPassword1(password1)}
                 text={password1}
             />
             <View>
-                {validPassword(password1) ? null : 
+                { password1.trim() === '' ? null : validPassword(password1) ? null : 
                 <View>
                     <Text style={styles.errmsg}>Invalid Password.</Text>
                     <Text style={styles.errmsg}>Password has to be 8 digits and contains at least one digit, one lower case, one upper case and a special character.</Text>
@@ -76,7 +78,7 @@ const SignUpScreen = () => {
             <Label>Password(again): </Label>
             <Input
                 autoCorrect={false}
-                autoFocus={true}
+                autoFocus={false}
                 placeholder='Enter you password again'
                 keyboardType='default'
                 onChangeText={password2 => setPassword2(password2)}

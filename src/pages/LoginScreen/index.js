@@ -3,26 +3,16 @@ import {View, Text, StyleSheet, } from 'react-native'
 import Label from '../../components/Label'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
+import { reqLogin } from '../../api'
 
 const LoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onLogin = () => {
-        const validEmail = validateEmail(email)
-        if (!validEmail) 
-        console.log(email, password, validEmail)
-    }
-
-    // Validate email use regular expression
-    const validateEmail = (email) => {
-        let emailre = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        return emailre.test(email.trim())
-    }
-
-    // Validate password use regular expression
-    const validatePassword = (passowrd) => {
-        return password
+    const onLogin = async (email, password) => {
+        let user = await reqLogin(email, password)
+        console.log(user)
+        if (user) navigation.navigate('Profile', {user})
     }
 
     return (
@@ -38,12 +28,6 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={email => setEmail(email)}
                 text={email}
             />
-            <View>
-                {validateEmail(email) ? null : 
-                <Text style={styles.errormsg}>
-                    Invalid Email
-                </Text> }
-            </View>
 
             {/* Password Area */}
             <Label>Password</Label>
@@ -56,17 +40,11 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={password => setPassword(password)}
                 text={password}
             />
-            <View>
-                {validatePassword(password) ? null : 
-                <Text style={styles.errormsg}>
-                    Invalid Password
-                </Text> }
-            </View>
             
             {/* Button Area */}
             <View style={styles.buttonarea}>
                 <Button
-                    onPress={onLogin}
+                    onPress={() => onLogin(email, password)}
                     > Log In 
                 </Button>
                 <Button
